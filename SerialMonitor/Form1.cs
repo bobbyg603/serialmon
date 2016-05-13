@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO.Ports;
-using System.Windows.Forms;
-
 using System.Text.RegularExpressions;
+using System.Windows.Forms;
 
 namespace SerialMonitor
 {
@@ -15,57 +13,48 @@ namespace SerialMonitor
         public Form1()
         {
             InitializeComponent();
-            comboBoxDevice.SelectedIndex = 1;
         }
 
-        private void btnStart_Click(object sender, EventArgs e)
+        private void btnOpen_Click(object sender, EventArgs e)
         {
-            string comPort = comPortTextBox.Text;
-            string recievedBytesThreshold = recievedBytesTextBox.Text;
-
-            if (!Regex.IsMatch(comPort, "COM[0-9]{1,2}"))
-            {
-                AppendTextToForm("Please enter a valid COM port!");
-                return;
-            }
-
             try
             {
+                string comPort = PortInput.Text;
+                string packetLength = PacketLengthInput.Text;
+
+                if (!Regex.IsMatch(comPort, "COM[0-9]{1,2}"))
+                {
+                    AppendTextToForm("Please enter a valid COM port!");
+                    return;
+                }
+
                 serialPort1.PortName = comPort;
-                serialPort1.ReceivedBytesThreshold = int.Parse(recievedBytesThreshold);
+                serialPort1.ReceivedBytesThreshold = int.Parse(packetLength);
+
+                if (!serialPort1.IsOpen)
+                {
+                    serialPort1.Open();
+                    txtStatus.Text = "Open";
+                    btnStart.Enabled = false;
+                    btnStop.Enabled = true;
+                }
+                else
+                    AppendTextToForm("Not Open!");
             }
             catch (Exception ex)
             {
                 AppendTextToForm(ex.ToString());
-                return;
             }
-
-            if (!serialPort1.IsOpen)
-            {
-                try
-                {
-                    serialPort1.Open();
-                    txtStatus.Text = "Running";
-                    btnStart.Enabled = false;
-                    btnStop.Enabled = true;
-                }
-                catch (Exception ex)
-                {
-                    AppendTextToForm(ex.ToString());
-                }
-            }
-            else
-                AppendTextToForm("Already running!");
         }
 
-        private void btnStop_Click(object sender, EventArgs e)
+        private void btnClose_Click(object sender, EventArgs e)
         {
             if (serialPort1.IsOpen)
             {
                 try
                 {
                     serialPort1.Close();
-                    txtStatus.Text = "Stopped";
+                    txtStatus.Text = "Closed";
                     btnStop.Enabled = false;
                     btnStart.Enabled = true;
                 }
@@ -75,7 +64,7 @@ namespace SerialMonitor
                 }
             }
             else
-                AppendTextToForm("Already stopped!");
+                AppendTextToForm("Already closed!");
         }
 
         private void btnReset_Click(object sender, EventArgs e)
@@ -100,7 +89,6 @@ namespace SerialMonitor
         
         private void AppendTextToForm(string text)
         {
-            Debug.WriteLine("info received");
             UpdateTextBoxOnMainForm(txtMain, text + Environment.NewLine);
         }
 
@@ -113,48 +101,6 @@ namespace SerialMonitor
             sp.Read(inData, 0, length);
 
             AppendTextToForm(BitConverter.ToString(inData));
-        }
-
-        private void comboBoxBaud_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            int index = comboBoxBaud.SelectedIndex;
-            int baud = 9600;
-
-            switch (index)
-            {
-                case 0: baud = 2400; break;
-                case 1: baud = 4800; break;
-                case 2: baud = 9600; break;
-                case 3: baud = 14400; break;
-                case 4: baud = 19200; break;
-                case 5: baud = 38400; break;
-                case 6: baud = 57600; break;
-                case 7: baud = 115200; break;
-            }
-
-            try
-            {
-                serialPort1.BaudRate = baud;
-            }
-            catch (Exception ex)
-            {
-                AppendTextToForm(ex.ToString());
-            }
-        }
-
-        private void comboBoxDevice_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (comboBoxDevice.SelectedIndex == indexMaster)
-            {
-                serialPort1.ReceivedBytesThreshold = 3;
-                comboBoxBaud.SelectedIndex = 7; // TODO use const
-            }
-
-            if (comboBoxDevice.SelectedIndex == indexSlave)
-            {
-                serialPort1.ReceivedBytesThreshold = 9;
-                comboBoxBaud.SelectedIndex = 2; // TODO use const
-            }
         }
     }
 }

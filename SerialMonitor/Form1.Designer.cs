@@ -37,10 +37,12 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtStatus = new System.Windows.Forms.TextBox();
             this.serialPort1 = new System.IO.Ports.SerialPort(this.components);
-            this.comboBoxBaud = new System.Windows.Forms.ComboBox();
-            this.comboBoxDevice = new System.Windows.Forms.ComboBox();
-            this.comPortTextBox = new System.Windows.Forms.TextBox();
-            this.recievedBytesTextBox = new System.Windows.Forms.TextBox();
+            this.PortInput = new System.Windows.Forms.TextBox();
+            this.BaudRateInput = new System.Windows.Forms.TextBox();
+            this.PacketLengthInput = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // txtMain
@@ -50,33 +52,33 @@
             this.txtMain.Name = "txtMain";
             this.txtMain.ReadOnly = true;
             this.txtMain.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtMain.Size = new System.Drawing.Size(679, 355);
+            this.txtMain.Size = new System.Drawing.Size(752, 505);
             this.txtMain.TabIndex = 0;
             // 
             // btnStart
             // 
-            this.btnStart.Location = new System.Drawing.Point(12, 374);
+            this.btnStart.Location = new System.Drawing.Point(13, 524);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(75, 25);
             this.btnStart.TabIndex = 1;
             this.btnStart.Text = "Start";
             this.btnStart.UseVisualStyleBackColor = true;
-            this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
+            this.btnStart.Click += new System.EventHandler(this.btnOpen_Click);
             // 
             // btnStop
             // 
             this.btnStop.Enabled = false;
-            this.btnStop.Location = new System.Drawing.Point(93, 374);
+            this.btnStop.Location = new System.Drawing.Point(94, 524);
             this.btnStop.Name = "btnStop";
             this.btnStop.Size = new System.Drawing.Size(75, 25);
             this.btnStop.TabIndex = 2;
             this.btnStop.Text = "Stop";
             this.btnStop.UseVisualStyleBackColor = true;
-            this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
+            this.btnStop.Click += new System.EventHandler(this.btnClose_Click);
             // 
             // btnReset
             // 
-            this.btnReset.Location = new System.Drawing.Point(174, 374);
+            this.btnReset.Location = new System.Drawing.Point(175, 524);
             this.btnReset.Name = "btnReset";
             this.btnReset.Size = new System.Drawing.Size(75, 25);
             this.btnReset.TabIndex = 3;
@@ -87,7 +89,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(526, 379);
+            this.label1.Location = new System.Drawing.Point(598, 530);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(40, 13);
             this.label1.TabIndex = 4;
@@ -95,7 +97,7 @@
             // 
             // txtStatus
             // 
-            this.txtStatus.Location = new System.Drawing.Point(572, 376);
+            this.txtStatus.Location = new System.Drawing.Point(644, 527);
             this.txtStatus.Name = "txtStatus";
             this.txtStatus.ReadOnly = true;
             this.txtStatus.Size = new System.Drawing.Size(120, 20);
@@ -109,61 +111,68 @@
             this.serialPort1.ReceivedBytesThreshold = 9;
             this.serialPort1.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPort1_DataReceived);
             // 
-            // comboBoxBaud
+            // PortInput
             // 
-            this.comboBoxBaud.FormattingEnabled = true;
-            this.comboBoxBaud.Items.AddRange(new object[] {
-            "2400",
-            "4800",
-            "9600",
-            "14400",
-            "19200",
-            "38400",
-            "57600",
-            "115200"});
-            this.comboBoxBaud.Location = new System.Drawing.Point(393, 376);
-            this.comboBoxBaud.Name = "comboBoxBaud";
-            this.comboBoxBaud.Size = new System.Drawing.Size(75, 21);
-            this.comboBoxBaud.TabIndex = 7;
-            this.comboBoxBaud.SelectedIndexChanged += new System.EventHandler(this.comboBoxBaud_SelectedIndexChanged);
+            this.PortInput.Location = new System.Drawing.Point(294, 527);
+            this.PortInput.Name = "PortInput";
+            this.PortInput.Size = new System.Drawing.Size(51, 20);
+            this.PortInput.TabIndex = 9;
+            this.PortInput.Text = "COM3";
             // 
-            // comboBoxDevice
+            // BaudRateInput
             // 
-            this.comboBoxDevice.FormattingEnabled = true;
-            this.comboBoxDevice.Items.AddRange(new object[] {
-            "Master",
-            "Slave"});
-            this.comboBoxDevice.Location = new System.Drawing.Point(312, 376);
-            this.comboBoxDevice.Name = "comboBoxDevice";
-            this.comboBoxDevice.Size = new System.Drawing.Size(75, 21);
-            this.comboBoxDevice.TabIndex = 8;
-            this.comboBoxDevice.SelectedIndexChanged += new System.EventHandler(this.comboBoxDevice_SelectedIndexChanged);
+            this.BaudRateInput.Location = new System.Drawing.Point(395, 527);
+            this.BaudRateInput.Name = "BaudRateInput";
+            this.BaudRateInput.Size = new System.Drawing.Size(51, 20);
+            this.BaudRateInput.TabIndex = 11;
+            this.BaudRateInput.Text = "115200";
             // 
-            // comPortTextBox
+            // PacketLengthInput
             // 
-            this.comPortTextBox.Location = new System.Drawing.Point(255, 377);
-            this.comPortTextBox.Name = "comPortTextBox";
-            this.comPortTextBox.Size = new System.Drawing.Size(51, 20);
-            this.comPortTextBox.TabIndex = 9;
-            this.comPortTextBox.Text = "COM3";
+            this.PacketLengthInput.Location = new System.Drawing.Point(541, 527);
+            this.PacketLengthInput.Name = "PacketLengthInput";
+            this.PacketLengthInput.Size = new System.Drawing.Size(51, 20);
+            this.PacketLengthInput.TabIndex = 12;
+            this.PacketLengthInput.Text = "9";
             // 
-            // recievedBytesTextBox
+            // label2
             // 
-            this.recievedBytesTextBox.Location = new System.Drawing.Point(474, 376);
-            this.recievedBytesTextBox.Name = "recievedBytesTextBox";
-            this.recievedBytesTextBox.Size = new System.Drawing.Size(51, 20);
-            this.recievedBytesTextBox.TabIndex = 10;
-            this.recievedBytesTextBox.Text = "9";
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(256, 530);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(32, 13);
+            this.label2.TabIndex = 13;
+            this.label2.Text = "Port :";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(351, 530);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(38, 13);
+            this.label3.TabIndex = 14;
+            this.label3.Text = "Baud :";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(452, 530);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(83, 13);
+            this.label4.TabIndex = 15;
+            this.label4.Text = "Packet Length :";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(704, 411);
-            this.Controls.Add(this.recievedBytesTextBox);
-            this.Controls.Add(this.comPortTextBox);
-            this.Controls.Add(this.comboBoxDevice);
-            this.Controls.Add(this.comboBoxBaud);
+            this.ClientSize = new System.Drawing.Size(782, 561);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.PacketLengthInput);
+            this.Controls.Add(this.BaudRateInput);
+            this.Controls.Add(this.PortInput);
             this.Controls.Add(this.txtStatus);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.btnReset);
@@ -189,10 +198,12 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtStatus;
         private System.IO.Ports.SerialPort serialPort1;
-        private System.Windows.Forms.ComboBox comboBoxBaud;
-        private System.Windows.Forms.ComboBox comboBoxDevice;
-        private System.Windows.Forms.TextBox comPortTextBox;
-        private System.Windows.Forms.TextBox recievedBytesTextBox;
+        private System.Windows.Forms.TextBox PortInput;
+        private System.Windows.Forms.TextBox BaudRateInput;
+        private System.Windows.Forms.TextBox PacketLengthInput;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label4;
     }
 }
 
